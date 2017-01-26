@@ -12,17 +12,20 @@ from gitfaces.__about__ import (
         )
 
 from io import BytesIO
+import os
 from PIL import Image
 import requests
 
-import pipdated
-if pipdated.needs_checking(__name__):
-    msg = pipdated.check(__name__, __version__)
-    if msg:
-        print(msg)
+# import pipdated
+# if pipdated.needs_checking(__name__):
+#     msg = pipdated.check(__name__, __version__)
+#     if msg:
+#         print(msg)
 
 
-def fetch(github_repo):
+def fetch(github_repo, out_dir):
+
+    assert os.path.isdir(out_dir)
 
     github_api_url = 'https://api.github.com'
     endpoint = '/repos/%s/contributors' % github_repo
@@ -61,7 +64,7 @@ def fetch(github_repo):
                     )
             # save the image as png
             i = Image.open(BytesIO(r.content))
-            filename = '/tmp/ggg/%s.png' % name
+            filename = os.path.join(out_dir, '%s.png' % name)
             print('    Saving %s...' % filename)
             i.save(filename)
         exit(1)
