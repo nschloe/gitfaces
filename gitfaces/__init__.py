@@ -30,11 +30,11 @@ def fetch(github_repo, out_dir):
     github_api_url = 'https://api.github.com'
     endpoint = '/repos/%s/contributors' % github_repo
     # https://developer.github.com/v3/#pagination
-    default_page_length = 30
+    max_per_page = 100
 
     k = 1
     while True:
-        params = {'page': k}
+        params = {'page': k, 'per_page': max_per_page}
         r = requests.get(github_api_url + endpoint, params=params)
         if not r.ok:
             raise RuntimeError(
@@ -68,7 +68,7 @@ def fetch(github_repo, out_dir):
             print('    Saving %s...' % filename)
             i.save(filename)
 
-        if len(data) < default_page_length:
+        if len(data) < max_per_page:
             break
         k += 1
 
