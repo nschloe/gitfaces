@@ -12,6 +12,8 @@ from gitfaces.__about__ import (
         )
 
 import datetime
+import git
+import hashlib
 from io import BytesIO
 import os
 from PIL import Image
@@ -50,7 +52,39 @@ def _wait_for_rate_limit(resource='core'):
     return
 
 
-def fetch(github_repo, out_dir):
+def fetch(local_repo, out_dir):
+    _fetch_gravatar(local_repo, out_dir)
+    # _fetch_github(local_repo)
+    return
+
+
+def _fetch_gravatar(directory, out_dir):
+    repo = git.Repo(directory)
+    # get all author and full names emails from the log
+    log_names_emails = repo.git.log('--format=%an;%ae').split('\n')
+    names_emails = set([
+        tuple(name_email.split(';')) for name_email in log_names_emails
+        ])
+
+    gravatar_url = 'https://www.gravatar.com'
+    for name, email in names_emails:
+        print('Check Gravatar for %s...' % email)
+        gravatar_hash = hashlib.md5(email.strip().lower()).hexdigest()
+        url = gravatar_url + '/avatar/' + gravatar_hash
+        # get gravatar
+        # fail if no gravatar is found
+        params = {'d': 404, 'size': 200}
+        r = requests.get(url, params=params)
+        if r.ok:
+            # save the image as png
+            i = Image.open(BytesIO(r.content))
+            filename = os.path.join(out_dir, '%s.png' % name)
+            print('    Saving %s...' % filename)
+            i.save(filename)
+    return
+
+
+def _fetch_github(github_repo, out_dir):
 
     assert os.path.isdir(out_dir)
 
@@ -71,6 +105,8 @@ def fetch(github_repo, out_dir):
         data = r.json()
 
         for user in data:
+            print(user)
+
             print('User %s...' % user['login'])
             # get name and avatar_url
             r = requests.get(_GITHUB_API_URL + '/users/%s' % user['login'])

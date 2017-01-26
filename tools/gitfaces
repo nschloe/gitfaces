@@ -13,7 +13,7 @@ def _parse_cmd_arguments():
     parser.add_argument(
             'repo',
             type=str,
-            help='GitHub repository (e.g., twbs/bootstrap)'
+            help='local Git repository'
             )
     parser.add_argument(
             'outdir',
