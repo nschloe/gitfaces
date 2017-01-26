@@ -67,7 +67,6 @@ def fetch(github_repo, out_dir):
             filename = os.path.join(out_dir, '%s.png' % name)
             print('    Saving %s...' % filename)
             i.save(filename)
-        exit(1)
 
         if len(data) < default_page_length:
             break
