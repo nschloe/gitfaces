@@ -11,10 +11,12 @@ from gitfaces.__about__ import (
         __status__
         )
 
+import datetime
 from io import BytesIO
 import os
 from PIL import Image
 import requests
+import time
 
 # import pipdated
 # if pipdated.needs_checking(__name__):
@@ -22,20 +24,46 @@ import requests
 #     if msg:
 #         print(msg)
 
+_GITHUB_API_URL = 'https://api.github.com'
+
+
+def _wait_for_rate_limit(resource='core'):
+    while True:
+        r = requests.get(_GITHUB_API_URL + '/rate_limit')
+        if not r.ok:
+            raise RuntimeError(
+                'Failed request to %s (code: %s)' % (r.url, r.status_code)
+                )
+        data = r.json()
+
+        if data['resources'][resource]['remaining'] > 0:
+            break
+
+        reset_time = datetime.datetime.fromtimestamp(
+                data['resources'][resource]['reset']
+                )
+        diff = reset_time - datetime.datetime.now()
+        print(
+            'GitHub rate limit reached! (reset at %s). Waiting...' % reset_time
+            )
+        time.sleep(diff.total_seconds())
+    return
+
 
 def fetch(github_repo, out_dir):
 
     assert os.path.isdir(out_dir)
 
-    github_api_url = 'https://api.github.com'
     endpoint = '/repos/%s/contributors' % github_repo
     # https://developer.github.com/v3/#pagination
     max_per_page = 100
 
     k = 1
     while True:
+        _wait_for_rate_limit()
+
         params = {'page': k, 'per_page': max_per_page}
-        r = requests.get(github_api_url + endpoint, params=params)
+        r = requests.get(_GITHUB_API_URL + endpoint, params=params)
         if not r.ok:
             raise RuntimeError(
                 'Failed request to %s (code: %s)' % (r.url, r.status_code)
@@ -45,7 +73,7 @@ def fetch(github_repo, out_dir):
         for user in data:
             print('User %s...' % user['login'])
             # get name and avatar_url
-            r = requests.get(github_api_url + '/users/%s' % user['login'])
+            r = requests.get(_GITHUB_API_URL + '/users/%s' % user['login'])
             user_data = r.json()
             try:
                 name = user_data['name']
