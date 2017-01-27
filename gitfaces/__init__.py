@@ -77,6 +77,7 @@ def _get_github_repo(remote):
     # github.com:trilinos/Trilinos.git
     pattern = 'github.com:([^\.]*)\.git'
     for url in remote.urls:
+        print(url)
         res = re.search(pattern, url)
         try:
             return res.group(1)
