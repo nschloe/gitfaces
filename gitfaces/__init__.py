@@ -30,7 +30,7 @@ import time
 _GITHUB_API_URL = 'https://api.github.com'
 
 
-def fetch(local_repo, out_dir):
+def fetch(local_repo, out_dir, gravatar=True, github=True):
     repo = git.Repo(local_repo)
 
     # get all author and full names emails from the log
@@ -40,13 +40,15 @@ def fetch(local_repo, out_dir):
         ])
 
     # check for gravatar
-    _fetch_gravatar(names_emails, out_dir)
+    if gravatar:
+        _fetch_gravatar(names_emails, out_dir)
 
     # check for github avatar
-    gh_repo = _get_github_repo(repo.remote('origin'))
-    if gh_repo is not None:
-        git_names = set([name_email[0] for name_email in names_emails])
-        _fetch_github(git_names, gh_repo, out_dir)
+    if github:
+        gh_repo = _get_github_repo(repo.remote('origin'))
+        if gh_repo is not None:
+            git_names = set([name_email[0] for name_email in names_emails])
+            _fetch_github(git_names, gh_repo, out_dir)
     return
 
 
