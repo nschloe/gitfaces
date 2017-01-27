@@ -88,7 +88,7 @@ def _get_github_repo(remote):
 
 def _fetch_gravatar(names_emails, out_dir):
     gravatar_url = 'https://www.gravatar.com'
-    for k, (name, email) in enumerate(names_emails):
+    for name, email in names_emails:
         print('Check Gravatar for %s...' % email)
         gravatar_hash = hashlib.md5(email.strip().lower()).hexdigest()
         url = gravatar_url + '/avatar/' + gravatar_hash
