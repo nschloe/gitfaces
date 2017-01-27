@@ -80,7 +80,8 @@ def fetch(local_repo, out_dir):
     # check for github avatar
     gh_repo = get_github_repo(repo.remote('origin'))
     if gh_repo is not None:
-        _fetch_github(gh_repo, out_dir)
+        git_names = set([name_email[0] for name_email in names_emails])
+        _fetch_github(git_names, gh_repo, out_dir)
     return
 
 
@@ -103,7 +104,7 @@ def _fetch_gravatar(names_emails, out_dir):
     return
 
 
-def _fetch_github(github_repo, out_dir):
+def _fetch_github(git_names, github_repo, out_dir):
     assert os.path.isdir(out_dir)
 
     endpoint = '/repos/%s/contributors' % github_repo
@@ -123,19 +124,24 @@ def _fetch_github(github_repo, out_dir):
         data = r.json()
 
         for user in data:
-            print(user)
+            avatar_url = user['avatar_url']
 
-            print('User %s...' % user['login'])
-            # get name and avatar_url
+            print('GitHub user %s...' % user['login'])
+            # get name
             r = requests.get(_GITHUB_API_URL + '/users/%s' % user['login'])
             user_data = r.json()
             try:
                 name = user_data['name']
             except KeyError:
-                continue
+                name = None
+
             if name is None:
                 continue
-            avatar_url = user_data['avatar_url']
+            if name not in git_names:
+                print(
+                    '    Name \'%s\' does not appear in Git log. Skip.' % name
+                    )
+                continue
 
             filename = os.path.join(out_dir, '%s.png' % name)
             if os.path.exists(filename):
