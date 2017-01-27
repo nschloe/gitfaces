@@ -14,7 +14,7 @@ install:
   - cd && find -name gitfaces
 
 script:
-  - cd test && GITFACES_REPO=~/nschloe/gitfaces pytest --cov gitfaces
+  - cd test && GITFACES_REPO=$HOME/build/nschloe/gitfaces pytest --cov gitfaces
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
