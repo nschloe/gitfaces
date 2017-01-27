@@ -90,7 +90,16 @@ def _fetch_gravatar(names_emails, out_dir):
     gravatar_url = 'https://www.gravatar.com'
     for name, email in names_emails:
         print('Check Gravatar for %s...' % email)
-        gravatar_hash = hashlib.md5(email.strip().lower()).hexdigest()
+
+        email_str = email.strip().lower()
+        try:
+            gravatar_hash = hashlib.md5(email_str).hexdigest()
+        except TypeError:
+            # TypeError: Unicode-objects must be encoded before hashing
+            gravatar_hash = hashlib.md5(
+                str(email_str).encode('utf-8')
+                ).hexdigest()
+
         url = gravatar_url + '/avatar/' + gravatar_hash
         # get gravatar
         # fail if no gravatar is found
