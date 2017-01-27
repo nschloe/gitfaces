@@ -5,3 +5,27 @@
 [![codecov](https://codecov.io/gh/nschloe/gitfaces/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/gitfaces)
 [![PyPi Version](https://img.shields.io/pypi/v/gitfaces.svg)](https://pypi.python.org/pypi/gitfaces)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/gitfaces.svg?style=social&label=Star&maxAge=2592000)](https://github.com/nschloe/gitfaces)
+
+### Testing
+
+To run the gitfaces unit tests, check out this repository, set the environment
+variable `GITFACES_TEST` to the local path of a Git repository on which you
+would like the tests to be performed, and type
+```
+pytest
+```
+
+### Distribution
+
+To create a new release
+
+1. bump the `__version__` number,
+
+2. publish to PyPi and GitHub:
+    ```
+    $ make publish
+    ```
+
+### License
+
+matplotlib2tikz is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).
