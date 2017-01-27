@@ -3,10 +3,7 @@ import os
 
 
 def test_gitfaces():
+    repo_dir = os.getenv('GITFACES_REPO')
     os.mkdir('out')
-    gitfaces.fetch(
-        # This is where travis puts the repo
-        os.path.join(os.path.expanduser('~'), 'nschloe/gitfaces'),
-        'out'
-        )
+    gitfaces.fetch(repo_dir, 'out')
     return
