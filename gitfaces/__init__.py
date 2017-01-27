@@ -17,6 +17,7 @@ import hashlib
 from io import BytesIO
 import os
 from PIL import Image
+import re
 import requests
 import time
 
@@ -52,22 +53,40 @@ def _wait_for_rate_limit(resource='core'):
     return
 
 
+def get_github_repo(remote):
+    # github.com:trilinos/Trilinos.git
+    pattern = 'github.com:([^\.]*)\.git'
+    for url in remote.urls:
+        res = re.search(pattern, url)
+        try:
+            return res.group(1)
+        except IndexError:
+            pass
+    return None
+
+
 def fetch(local_repo, out_dir):
-    _fetch_gravatar(local_repo, out_dir)
-    # _fetch_github(local_repo)
-    return
+    repo = git.Repo(local_repo)
 
-
-def _fetch_gravatar(directory, out_dir):
-    repo = git.Repo(directory)
     # get all author and full names emails from the log
     log_names_emails = repo.git.log('--format=%an;%ae').split('\n')
     names_emails = set([
         tuple(name_email.split(';')) for name_email in log_names_emails
         ])
 
+    # check for gravatar
+    _fetch_gravatar(names_emails, out_dir)
+
+    # check for github avatar
+    gh_repo = get_github_repo(repo.remote('origin'))
+    if gh_repo is not None:
+        _fetch_github(gh_repo, out_dir)
+    return
+
+
+def _fetch_gravatar(names_emails, out_dir):
     gravatar_url = 'https://www.gravatar.com'
-    for name, email in names_emails:
+    for k, (name, email) in enumerate(names_emails):
         print('Check Gravatar for %s...' % email)
         gravatar_hash = hashlib.md5(email.strip().lower()).hexdigest()
         url = gravatar_url + '/avatar/' + gravatar_hash
@@ -85,7 +104,6 @@ def _fetch_gravatar(directory, out_dir):
 
 
 def _fetch_github(github_repo, out_dir):
-
     assert os.path.isdir(out_dir)
 
     endpoint = '/repos/%s/contributors' % github_repo
@@ -119,18 +137,21 @@ def _fetch_github(github_repo, out_dir):
                 continue
             avatar_url = user_data['avatar_url']
 
-            # get avatar
-            r = requests.get(avatar_url)
-            if not r.ok:
-                raise RuntimeError(
-                    'Failed request to %s (code: %s)'
-                    % (avatar_url, r.status_code)
-                    )
-            # save the image as png
-            i = Image.open(BytesIO(r.content))
             filename = os.path.join(out_dir, '%s.png' % name)
-            print('    Saving %s...' % filename)
-            i.save(filename)
+            if os.path.exists(filename):
+                print('    File %s already exists.' % filename)
+            else:
+                # get avatar
+                r = requests.get(avatar_url)
+                if not r.ok:
+                    raise RuntimeError(
+                        'Failed request to %s (code: %s)'
+                        % (avatar_url, r.status_code)
+                        )
+                # save the image as png
+                i = Image.open(BytesIO(r.content))
+                print('    Saving %s...' % filename)
+                i.save(filename)
 
         if len(data) < max_per_page:
             break
