@@ -11,10 +11,9 @@ before_install:
 
 install:
   - pip install .
-  - cd && find -name gitfaces
 
 script:
-  - cd test && GITFACES_REPO=$HOME/build/nschloe/gitfaces pytest --cov gitfaces
+  - export GITFACES_REPO=./build/nschloe/gitfaces && cd test && pytest --cov gitfaces
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
