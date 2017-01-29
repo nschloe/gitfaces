@@ -48,4 +48,4 @@ To create a new release
 
 ### License
 
-matplotlib2tikz is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).
+gitfaces is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).
