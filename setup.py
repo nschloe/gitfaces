@@ -48,5 +48,8 @@ setup(
         'Programming Language :: Python :: 3',
         'Topic :: Multimedia :: Graphics',
         'Topic :: Software Development :: Version Control',
+        ],
+    scripts=[
+        'tools/gitfaces'
         ]
     )
