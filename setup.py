@@ -40,13 +40,16 @@ setup(
     long_description=read('README.rst'),
     license=about['__license__'],
     classifiers=[
-        'Development Status :: 4 - Beta',
-        'License :: OSI Approved :: MIT License',
+        about['__status__'],
+        about['__license__'],
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Topic :: Multimedia :: Graphics',
         'Topic :: Software Development :: Version Control',
+        ],
+    scripts=[
+        'tools/gitfaces'
         ]
     )
