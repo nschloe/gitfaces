@@ -1,5 +1,7 @@
-import gitfaces
+# -*- coding: utf-8 -*-
+#
 import os
+import gitfaces
 
 
 def test_gitfaces():

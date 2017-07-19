@@ -3,6 +3,7 @@
 #
 import argparse
 
+# pylint: disable=import-self
 import gitfaces
 
 
@@ -11,15 +12,15 @@ def _parse_cmd_arguments():
         description='fetch contributor avatars for a GitHub repository'
         )
     parser.add_argument(
-            'repo',
-            type=str,
-            help='local Git repository'
-            )
+        'repo',
+        type=str,
+        help='local Git repository'
+        )
     parser.add_argument(
-            'outdir',
-            type=str,
-            help='output directory'
-            )
+        'outdir',
+        type=str,
+        help='output directory'
+        )
     return parser.parse_args()
 
 
