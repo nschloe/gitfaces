@@ -1,25 +1,27 @@
 # -*- coding: utf-8 -*-
 #
-
-from gitfaces.__about__ import (
-        __author__,
-        __email__,
-        __copyright__,
-        __license__,
-        __version__,
-        __maintainer__,
-        __status__
-        )
+from __future__ import print_function
 
 import datetime
-import git
 import hashlib
 from io import BytesIO
 import os
-from PIL import Image
 import re
-import requests
 import time
+
+from gitfaces.__about__ import (
+    __author__,
+    __email__,
+    __copyright__,
+    __license__,
+    __version__,
+    __maintainer__,
+    __status__
+    )
+
+import git
+from PIL import Image
+import requests
 
 import pipdated
 if pipdated.needs_checking(__name__):
@@ -65,8 +67,8 @@ def _wait_for_rate_limit(resource='core'):
             break
 
         reset_time = datetime.datetime.fromtimestamp(
-                data['resources'][resource]['reset']
-                )
+            data['resources'][resource]['reset']
+            )
         diff = reset_time - datetime.datetime.now()
         print(
             'GitHub rate limit reached! (reset at %s). Waiting...' % reset_time
@@ -78,7 +80,7 @@ def _wait_for_rate_limit(resource='core'):
 def _get_github_repo(remote):
     # git@github.com:trilinos/Trilinos.git
     # https://github.com/trilinos/Trilinos.git
-    pattern = 'github\.com.([^\.]*)\.git'
+    pattern = 'github\\.com.([^\\.]*)\\.git'
     for url in remote.urls:
         res = re.search(pattern, url)
         try:
