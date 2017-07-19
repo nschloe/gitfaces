@@ -1,9 +1,8 @@
 # gitfaces
 
 [![Build Status](https://travis-ci.org/nschloe/gitfaces.svg?branch=master)](https://travis-ci.org/nschloe/gitfaces)
-[![Code Health](https://landscape.io/github/nschloe/gitfaces/master/landscape.png)](https://landscape.io/github/nschloe/gitfaces/master)
 [![PyPi Version](https://img.shields.io/pypi/v/gitfaces.svg)](https://pypi.python.org/pypi/gitfaces)
-[![GitHub stars](https://img.shields.io/github/stars/nschloe/gitfaces.svg?style=social&label=Star&maxAge=2592000)](https://github.com/nschloe/gitfaces)
+[![GitHub stars](https://img.shields.io/github/stars/nschloe/gitfaces.svg?style=social&label=Stars&maxAge=2592000)](https://github.com/nschloe/gitfaces)
 
 gitfaces collects avatars for all contributors of a given Git repository. (This
 can be used for [Gource's](https://github.com/acaudwell/Gource)
@@ -20,7 +19,7 @@ all the avatars.
 ### Installation
 
 gitfaces is [available from the Python Package
-Index](https://pypi.python.org/pypi/betterbib/), so simply type
+Index](https://pypi.python.org/pypi/gitfaces/), so simply type
 ```
 pip install -U gitfaces
 ```
