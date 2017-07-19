@@ -7,12 +7,16 @@ python:
     - '3.6'
 
 before_install:
-  - pip install pytest pytest-cov
+  - pip install pytest pytest-cov pylint
 
 install:
   - pip install .
 
 script:
+  - pylint gitfaces
+  - pylint test/*.py
+  - pylint tools/gitfaces
+  #
   - export GITFACES_REPO=$HOME/build/nschloe/gitfaces && cd test && pytest --cov gitfaces
 
 after_success:
