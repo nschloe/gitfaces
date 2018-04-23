@@ -1,0 +1,23 @@
+version: 2
+
+jobs:
+  build:
+    working_directory: ~/work
+    environment:
+      LC_ALL: C.UTF-8
+      LANG: C.UTF-8
+    docker:
+      - image: ubuntu:18.04
+    steps:
+      - run: apt-get update
+      - run: apt-get install -y git python3-pip
+      - run: pip3 install -U pytest pytest-cov pylint
+      - checkout
+      - run: pip3 install .
+      # lint
+      - run: pylint setup.py gitfaces/ test/*.py
+      # The tests
+      - run: export GITFACES_REPO=$HOME/work && cd test/ && pytest --cov gitfaces
+      # submit to codecov
+      - run: apt-get install -y curl
+      - run: bash <(curl -s https://codecov.io/bash) -R ~/work

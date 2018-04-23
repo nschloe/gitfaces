@@ -1,8 +1,9 @@
 # gitfaces
 
-[![Build Status](https://travis-ci.org/nschloe/gitfaces.svg?branch=master)](https://travis-ci.org/nschloe/gitfaces)
-[![PyPi Version](https://img.shields.io/pypi/v/gitfaces.svg)](https://pypi.python.org/pypi/gitfaces)
-[![GitHub stars](https://img.shields.io/github/stars/nschloe/gitfaces.svg?style=social&label=Stars&maxAge=2592000)](https://github.com/nschloe/gitfaces)
+[![CircleCI](https://img.shields.io/circleci/project/github/nschloe/gitfaces/master.svg)](https://circleci.com/gh/nschloe/gitfaces)
+[![codecov](https://img.shields.io/codecov/c/github/nschloe/gitfaces.svg)](https://codecov.io/gh/nschloe/gitfaces)
+[![PyPi Version](https://img.shields.io/pypi/v/gitfaces.svg)](https://pypi.org/project/gitfaces)
+[![GitHub stars](https://img.shields.io/github/stars/nschloe/gitfaces.svg?logo=github&label=Stars)](https://github.com/nschloe/gitfaces)
 
 gitfaces collects avatars for all contributors of a given Git repository. (This
 can be used for [Gource's](https://github.com/acaudwell/Gource)

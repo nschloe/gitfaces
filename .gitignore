@@ -4,6 +4,7 @@ README.rst
 build/
 dist/
 example/
-betterbib.egg-info/
+*.egg-info/
 .cache/
 MANIFEST
+.pytest_cache/
