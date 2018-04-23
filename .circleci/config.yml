@@ -14,7 +14,7 @@ jobs:
       # lint
       - run: pylint setup.py gitfaces/ test/*.py
       # The tests
-      - run: cd test/ && pytest --cov gitfaces
+      - run: export GITFACES_REPO=$HOME/work && cd test/ && pytest --cov gitfaces
       # submit to codecov
       - run: apt-get install -y curl
       - run: bash <(curl -s https://codecov.io/bash) -R ~/work
