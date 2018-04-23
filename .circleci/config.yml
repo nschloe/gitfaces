@@ -3,6 +3,9 @@ version: 2
 jobs:
   build:
     working_directory: ~/work
+    environment:
+      LC_ALL: C.UTF-8
+      LANG: C.UTF-8
     docker:
       - image: ubuntu:18.04
     steps:
