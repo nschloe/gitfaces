@@ -7,3 +7,4 @@ example/
 *.egg-info/
 .cache/
 MANIFEST
+.pytest_cache/
