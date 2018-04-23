@@ -10,9 +10,10 @@ tag:
 	git tag v$(VERSION)
 	git push --tags
 
-upload: setup.py README.rst
+upload: setup.py
 	@if [ "$(shell git rev-parse --abbrev-ref HEAD)" != "master" ]; then exit 1; fi
 	rm -f dist/*
+	python3 setup.py sdist
 	python setup.py bdist_wheel --universal
 	twine upload dist/*
 
@@ -21,3 +22,6 @@ publish: tag upload
 clean:
 	@find . | grep -E "(__pycache__|\.pyc|\.pyo$\)" | xargs rm -rf
 	@rm -rf *.egg-info/ build/ dist/
+
+lint:
+	pylint setup.py gitfaces/ test/*.py

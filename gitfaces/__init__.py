@@ -23,11 +23,13 @@ import git
 from PIL import Image
 import requests
 
-import pipdated
-if pipdated.needs_checking(__name__):
-    msg = pipdated.check(__name__, __version__)
-    if msg:
-        print(msg)
+try:
+    import pipdate
+except ImportError:
+    pass
+else:
+    if pipdate.needs_checking(__name__):
+        print(pipdate.check(__name__, __version__), end='')
 
 _GITHUB_API_URL = 'https://api.github.com'
 
