@@ -9,7 +9,6 @@ from setuptools import setup, find_packages
 base_dir = os.path.abspath(os.path.dirname(__file__))
 about = {}
 with open(os.path.join(base_dir, "gitfaces", "__about__.py"), "rb") as f:
-    # pylint: disable=exec-used
     exec(f.read(), about)
 
 
@@ -24,7 +23,7 @@ setup(
     url="https://github.com/nschloe/gitfaces",
     author=about["__author__"],
     author_email=about["__email__"],
-    install_requires=["GitPython", "Pillow", "pipdate", "requests"],
+    install_requires=["GitPython", "Pillow", "pipdate >=0.3.0, <0.4.0", "requests"],
     description="Fetch contributor avatars for a GitHub repository",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
@@ -39,5 +38,5 @@ setup(
         "Topic :: Multimedia :: Graphics",
         "Topic :: Software Development :: Version Control",
     ],
-    scripts=["tools/gitfaces"],
+    entry_points={"console_scripts": ["gitfaces = gitfaces.cli:main"]},
 )
