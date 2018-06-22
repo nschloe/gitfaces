@@ -1,4 +1,4 @@
-VERSION=$(shell python -c "import gitfaces; print(gitfaces.__version__)")
+VERSION=$(shell python3 -c "import gitfaces; print(gitfaces.__version__)")
 
 default:
 	@echo "\"make publish\"?"
@@ -14,7 +14,7 @@ upload: setup.py
 	@if [ "$(shell git rev-parse --abbrev-ref HEAD)" != "master" ]; then exit 1; fi
 	rm -f dist/*
 	python3 setup.py sdist
-	python setup.py bdist_wheel --universal
+	python3 setup.py bdist_wheel --universal
 	twine upload dist/*
 
 publish: tag upload

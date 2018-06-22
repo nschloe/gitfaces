@@ -20,7 +20,7 @@ all the avatars.
 ### Installation
 
 gitfaces is [available from the Python Package
-Index](https://pypi.python.org/pypi/gitfaces/), so simply type
+Index](https://pypi.org/project/gitfaces/), so simply type
 ```
 pip install -U gitfaces
 ```
