@@ -1,4 +1,4 @@
-VERSION=$(shell python -c "import gitfaces; print(gitfaces.__version__)")
+VERSION=$(shell python3 -c "import gitfaces; print(gitfaces.__version__)")
 
 default:
 	@echo "\"make publish\"?"
@@ -14,14 +14,15 @@ upload: setup.py
 	@if [ "$(shell git rev-parse --abbrev-ref HEAD)" != "master" ]; then exit 1; fi
 	rm -f dist/*
 	python3 setup.py sdist
-	python setup.py bdist_wheel --universal
+	python3 setup.py bdist_wheel --universal
 	twine upload dist/*
 
 publish: tag upload
 
 clean:
 	@find . | grep -E "(__pycache__|\.pyc|\.pyo$\)" | xargs rm -rf
-	@rm -rf *.egg-info/ build/ dist/
+	@rm -rf *.egg-info/ build/ dist/ MANIFEST
 
 lint:
-	pylint setup.py gitfaces/ test/*.py
+	black --check setup.py gitfaces/ test/*.py
+	flake8 setup.py gitfaces/ test/*.py

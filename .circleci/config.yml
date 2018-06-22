@@ -11,11 +11,12 @@ jobs:
     steps:
       - run: apt-get update
       - run: apt-get install -y git python3-pip
-      - run: pip3 install -U pytest pytest-cov pylint
+      - run: pip3 install -U pytest pytest-cov black flake8
       - checkout
       - run: pip3 install .
-      # lint
-      - run: pylint setup.py gitfaces/ test/*.py
+      # format and lint
+      - run: LC_ALL=C.UTF-8 black --check setup.py gitfaces/ test/*.py
+      - run: flake8 setup.py gitfaces/ test/*.py
       # The tests
       - run: export GITFACES_REPO=$HOME/work && cd test/ && pytest --cov gitfaces
       # submit to codecov
