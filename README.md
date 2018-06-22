@@ -2,6 +2,7 @@
 
 [![CircleCI](https://img.shields.io/circleci/project/github/nschloe/gitfaces/master.svg)](https://circleci.com/gh/nschloe/gitfaces)
 [![codecov](https://img.shields.io/codecov/c/github/nschloe/gitfaces.svg)](https://codecov.io/gh/nschloe/gitfaces)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![PyPi Version](https://img.shields.io/pypi/v/gitfaces.svg)](https://pypi.org/project/gitfaces)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/gitfaces.svg?logo=github&label=Stars)](https://github.com/nschloe/gitfaces)
 
