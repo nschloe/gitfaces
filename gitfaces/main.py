@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-#
-from __future__ import print_function
-
 import datetime
 import hashlib
 from io import BytesIO
@@ -22,9 +18,9 @@ def fetch(local_repo, out_dir, gravatar=True, github=True):
 
     # get all author and full names emails from the log
     log_names_emails = repo.git.log("--format=%an;%ae").split("\n")
-    names_emails = set(
-        [tuple(name_email.split(";")) for name_email in log_names_emails]
-    )
+    names_emails = {
+        tuple(name_email.split(";")) for name_email in log_names_emails
+    }
 
     # check for gravatar
     if gravatar:
@@ -34,7 +30,7 @@ def fetch(local_repo, out_dir, gravatar=True, github=True):
     if github:
         gh_repo = _get_github_repo(repo.remote("origin"))
         if gh_repo is not None:
-            git_names = set([name_email[0] for name_email in names_emails])
+            git_names = {name_email[0] for name_email in names_emails}
             _fetch_github(git_names, gh_repo, out_dir)
     return
 
@@ -44,7 +40,7 @@ def _wait_for_rate_limit(resource="core"):
         r = requests.get(_GITHUB_API_URL + "/rate_limit")
         if not r.ok:
             raise RuntimeError(
-                "Failed request to %s (code: %s)" % (r.url, r.status_code)
+                f"Failed request to {r.url} (code: {r.status_code})"
             )
         data = r.json()
 
@@ -114,7 +110,7 @@ def _fetch_github(git_names, github_repo, out_dir):
         r = requests.get(_GITHUB_API_URL + endpoint, params=params)
         if not r.ok:
             raise RuntimeError(
-                "Failed request to %s (code: %s)" % (r.url, r.status_code)
+                f"Failed request to {r.url} (code: {r.status_code})"
             )
         data = r.json()
 
@@ -144,7 +140,7 @@ def _fetch_github(git_names, github_repo, out_dir):
                 r = requests.get(avatar_url)
                 if not r.ok:
                     raise RuntimeError(
-                        "Failed request to %s (code: %s)" % (avatar_url, r.status_code)
+                        f"Failed request to {avatar_url} (code: {r.status_code})"
                     )
                 # save the image as png
                 i = Image.open(BytesIO(r.content))

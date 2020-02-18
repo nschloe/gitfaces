@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 import os
 import codecs
 
@@ -24,6 +22,7 @@ setup(
     author=about["__author__"],
     author_email=about["__email__"],
     install_requires=["GitPython", "Pillow", "pipdate >=0.3.0, <0.4.0", "requests"],
+    python_requires=">=3.6",
     description="Fetch contributor avatars for a GitHub repository",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
@@ -32,9 +31,9 @@ setup(
         about["__status__"],
         about["__license__"],
         "Operating System :: OS Independent",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Topic :: Multimedia :: Graphics",
         "Topic :: Software Development :: Version Control",
     ],

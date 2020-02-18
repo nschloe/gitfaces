@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-#
-from __future__ import print_function
-
 from gitfaces.__about__ import (
     __author__,
     __email__,
