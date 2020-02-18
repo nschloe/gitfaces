@@ -1,4 +1,3 @@
-import codecs
 import os
 
 from setuptools import find_packages, setup
@@ -8,10 +7,6 @@ base_dir = os.path.abspath(os.path.dirname(__file__))
 about = {}
 with open(os.path.join(base_dir, "gitfaces", "__about__.py"), "rb") as f:
     exec(f.read(), about)
-
-
-def read(fname):
-    return codecs.open(os.path.join(base_dir, fname), encoding="utf-8").read()
 
 
 setup(
@@ -24,7 +19,7 @@ setup(
     install_requires=["GitPython", "Pillow", "requests"],
     python_requires=">=3.6",
     description="Fetch contributor avatars for a GitHub repository",
-    long_description=read("README.md"),
+    long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     license=about["__license__"],
     classifiers=[
