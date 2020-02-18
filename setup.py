@@ -21,7 +21,7 @@ setup(
     url="https://github.com/nschloe/gitfaces",
     author=about["__author__"],
     author_email=about["__email__"],
-    install_requires=["GitPython", "Pillow", "pipdate >=0.3.0, <0.4.0", "requests"],
+    install_requires=["GitPython", "Pillow", "requests"],
     python_requires=">=3.6",
     description="Fetch contributor avatars for a GitHub repository",
     long_description=read("README.md"),
