@@ -1,17 +1,13 @@
-# -*- coding: utf-8 -*-
-#
-from __future__ import print_function
-
 from gitfaces.__about__ import (
     __author__,
-    __email__,
     __copyright__,
-    __version__,
+    __email__,
     __status__,
+    __version__,
 )
 
-from .main import fetch
 from . import cli
+from .main import fetch
 
 __all__ = [
     "__author__",
@@ -22,11 +18,3 @@ __all__ = [
     "fetch",
     "cli",
 ]
-
-try:
-    import pipdate
-except ImportError:
-    pass
-else:
-    if pipdate.needs_checking(__name__):
-        print(pipdate.check(__name__, __version__), end="")

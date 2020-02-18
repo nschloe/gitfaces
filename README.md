@@ -2,9 +2,9 @@
 
 [![CircleCI](https://img.shields.io/circleci/project/github/nschloe/gitfaces/master.svg)](https://circleci.com/gh/nschloe/gitfaces)
 [![codecov](https://img.shields.io/codecov/c/github/nschloe/gitfaces.svg)](https://codecov.io/gh/nschloe/gitfaces)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![PyPi Version](https://img.shields.io/pypi/v/gitfaces.svg)](https://pypi.org/project/gitfaces)
-[![GitHub stars](https://img.shields.io/github/stars/nschloe/gitfaces.svg?logo=github&label=Stars)](https://github.com/nschloe/gitfaces)
+[![GitHub stars](https://img.shields.io/github/stars/nschloe/gitfaces.svg?logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/gitfaces)
 
 gitfaces collects avatars for all contributors of a given Git repository. (This
 can be used for [Gource's](https://github.com/acaudwell/Gource)
@@ -35,17 +35,6 @@ would like the tests to be performed, and type
 ```
 pytest
 ```
-
-### Distribution
-
-To create a new release
-
-1. bump the `__version__` number,
-
-2. publish to PyPi and GitHub:
-    ```
-    $ make publish
-    ```
 
 ### License
 

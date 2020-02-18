@@ -1,18 +1,13 @@
-# -*- coding: utf-8 -*-
-#
-from __future__ import print_function
-
 import datetime
 import hashlib
-from io import BytesIO
 import os
 import re
 import time
+from io import BytesIO
 
 import git
-from PIL import Image
 import requests
-
+from PIL import Image
 
 _GITHUB_API_URL = "https://api.github.com"
 
@@ -22,9 +17,7 @@ def fetch(local_repo, out_dir, gravatar=True, github=True):
 
     # get all author and full names emails from the log
     log_names_emails = repo.git.log("--format=%an;%ae").split("\n")
-    names_emails = set(
-        [tuple(name_email.split(";")) for name_email in log_names_emails]
-    )
+    names_emails = {tuple(name_email.split(";")) for name_email in log_names_emails}
 
     # check for gravatar
     if gravatar:
@@ -34,7 +27,7 @@ def fetch(local_repo, out_dir, gravatar=True, github=True):
     if github:
         gh_repo = _get_github_repo(repo.remote("origin"))
         if gh_repo is not None:
-            git_names = set([name_email[0] for name_email in names_emails])
+            git_names = {name_email[0] for name_email in names_emails}
             _fetch_github(git_names, gh_repo, out_dir)
     return
 
@@ -43,9 +36,7 @@ def _wait_for_rate_limit(resource="core"):
     while True:
         r = requests.get(_GITHUB_API_URL + "/rate_limit")
         if not r.ok:
-            raise RuntimeError(
-                "Failed request to %s (code: %s)" % (r.url, r.status_code)
-            )
+            raise RuntimeError(f"Failed request to {r.url} (code: {r.status_code})")
         data = r.json()
 
         if data["resources"][resource]["remaining"] > 0:
@@ -113,9 +104,7 @@ def _fetch_github(git_names, github_repo, out_dir):
         params = {"page": k, "per_page": max_per_page}
         r = requests.get(_GITHUB_API_URL + endpoint, params=params)
         if not r.ok:
-            raise RuntimeError(
-                "Failed request to %s (code: %s)" % (r.url, r.status_code)
-            )
+            raise RuntimeError(f"Failed request to {r.url} (code: {r.status_code})")
         data = r.json()
 
         for user in data:
@@ -144,7 +133,7 @@ def _fetch_github(git_names, github_repo, out_dir):
                 r = requests.get(avatar_url)
                 if not r.ok:
                     raise RuntimeError(
-                        "Failed request to %s (code: %s)" % (avatar_url, r.status_code)
+                        f"Failed request to {avatar_url} (code: {r.status_code})"
                     )
                 # save the image as png
                 i = Image.open(BytesIO(r.content))
