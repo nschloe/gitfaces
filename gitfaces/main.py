@@ -46,9 +46,8 @@ def _wait_for_rate_limit(resource="core"):
             data["resources"][resource]["reset"]
         )
         diff = reset_time - datetime.datetime.now()
-        print("GitHub rate limit reached! (reset at %s). Waiting..." % reset_time)
+        print(f"GitHub rate limit reached! (reset at {reset_time}). Waiting...")
         time.sleep(diff.total_seconds())
-    return
 
 
 def _get_github_repo(remote):
@@ -67,7 +66,7 @@ def _get_github_repo(remote):
 def _fetch_gravatar(names_emails, out_dir):
     gravatar_url = "https://www.gravatar.com"
     for name, email in names_emails:
-        print("Check Gravatar for %s..." % email)
+        print(f"Check Gravatar for {email}...")
 
         email_str = email.strip().lower()
         try:
@@ -84,8 +83,8 @@ def _fetch_gravatar(names_emails, out_dir):
         if r.ok:
             # save the image as png
             i = Image.open(BytesIO(r.content))
-            filename = os.path.join(out_dir, "%s.png" % name)
-            print("    Saving %s..." % filename)
+            filename = os.path.join(out_dir, f"{name}.png")
+            print(f"    Saving {filename}...")
             i.save(filename)
     return
 
@@ -93,7 +92,7 @@ def _fetch_gravatar(names_emails, out_dir):
 def _fetch_github(git_names, github_repo, out_dir):
     assert os.path.isdir(out_dir)
 
-    endpoint = "/repos/%s/contributors" % github_repo
+    endpoint = f"/repos/{github_repo}/contributors"
     # https://developer.github.com/v3/#pagination
     max_per_page = 100
 
@@ -109,10 +108,10 @@ def _fetch_github(git_names, github_repo, out_dir):
 
         for user in data:
             avatar_url = user["avatar_url"]
-
-            print("GitHub user %s..." % user["login"])
+            login = user["login"]
+            print(f"GitHub user {login}...")
             # get name
-            r = requests.get(_GITHUB_API_URL + "/users/%s" % user["login"])
+            r = requests.get(_GITHUB_API_URL + f"/users/{login}")
             user_data = r.json()
             try:
                 name = user_data["name"]
@@ -122,12 +121,12 @@ def _fetch_github(git_names, github_repo, out_dir):
             if name is None:
                 continue
             if name not in git_names:
-                print("    Name '%s' does not appear in Git log. Skip." % name)
+                print(f"    Name '{name}' does not appear in Git log. Skip.")
                 continue
 
-            filename = os.path.join(out_dir, "%s.png" % name)
+            filename = os.path.join(out_dir, f"{name}.png")
             if os.path.exists(filename):
-                print("    File %s already exists." % filename)
+                print(f"    File {filename} already exists.")
             else:
                 # get avatar
                 r = requests.get(avatar_url)
@@ -137,11 +136,9 @@ def _fetch_github(git_names, github_repo, out_dir):
                     )
                 # save the image as png
                 i = Image.open(BytesIO(r.content))
-                print("    Saving %s..." % filename)
+                print(f"    Saving {filename}...")
                 i.save(filename)
 
         if len(data) < max_per_page:
             break
         k += 1
-
-    return
